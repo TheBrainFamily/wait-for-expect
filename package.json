@@ -1,6 +1,6 @@
 {
   "name": "wait-for-expect",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Wait for expectation to be true, useful for integration and end to end testing",
   "main": "src/index.js",
   "scripts": {
