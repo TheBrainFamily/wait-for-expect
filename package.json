@@ -1,0 +1,39 @@
+{
+  "name": "wait-for-expect",
+  "version": "0.0.1",
+  "description": "Wait for expectation to be true, useful for integration and end to end testing",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "eslint . && jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheBrainFamily/wait-for-expect.git"
+  },
+  "keywords": [
+    "jest",
+    "expect",
+    "wait",
+    "async",
+    "await",
+    "promise",
+    "integration",
+    "testing",
+    "unit"
+  ],
+  "author": "Lukasz Gandecki",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TheBrainFamily/wait-for-expect/issues"
+  },
+  "homepage": "https://github.com/TheBrainFamily/wait-for-expect#readme",
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-prettier": "^2.6.0",
+    "jest": "^22.4.3",
+    "prettier": "^1.11.1"
+  }
+}
