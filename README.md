@@ -1,7 +1,9 @@
-# wait-for-expect
-Wait for expectation to be true, useful for integration and end to end testing
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![CircleCI](https://circleci.com/gh/TheBrainFamily/wait-for-expect.svg?style=shield)](https://circleci.com/gh/TheBrainFamily/wait-for-expect)
+
+# wait-for-expect
+Wait for expectation to be true, useful for integration and end to end testing
+
 Usage:
 
 ```javascript
@@ -71,3 +73,6 @@ Tests:       1 failed, 1 total
 Snapshots:   0 total
 Time:        5.807s
 ```
+
+## Credit
+Based on ideas from https://github.com/devlato/waitUntil - mostly build around it with functionality nice for testing. Couldn't depend on it internally because I wanted to add the flushPromises and run the initial expectations right after flushing them, which had to be done in the tool itself :) otherwise tests that should be taking few ms would take all >50ms in the default situation. It might seem trivial but with 100 tests times 45 ms extra your tests would start taking 4.5 seconds instead of 0.5 s :) 
