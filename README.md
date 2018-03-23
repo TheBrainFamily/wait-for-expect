@@ -1,6 +1,7 @@
 # wait-for-expect
 Wait for expectation to be true, useful for integration and end to end testing
-
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+[![CircleCI](https://circleci.com/gh/TheBrainFamily/wait-for-expect.svg?style=shield)](https://circleci.com/gh/TheBrainFamily/wait-for-expect)
 Usage:
 
 ```javascript
