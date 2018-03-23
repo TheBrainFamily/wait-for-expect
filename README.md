@@ -8,6 +8,7 @@ Usage:
 
 ```javascript
 const waitForExpect = require("wait-for-expect")
+
 let numberToChange = 10;
 
 test("it waits for the number to change", async () => {
@@ -30,6 +31,7 @@ test("it waits for the number to change", () => {
   setTimeout(() => {
     numberToChange = 100;
   }, 600);
+  
   setTimeout(() => {
     expect(numberToChange).toEqual(100);
   }, 700);
@@ -72,6 +74,20 @@ Test Suites: 1 failed, 1 total
 Tests:       1 failed, 1 total
 Snapshots:   0 total
 Time:        5.807s
+```
+
+# API
+waitForExpect takes 3 arguments, 2 optional.
+
+```javascript
+/**
+ * Waits for predicate to not throw and returns a Promise
+ *
+ * @param  expectation  Function  Predicate that has to complete without throwing
+ * @param  timeout  Number  Maximum wait interval, 4500ms by default
+ * @param  interval  Number  Wait interval, 50ms by default
+ * @return  Promise  Promise to return a callback result
+ */
 ```
 
 ## Credit
