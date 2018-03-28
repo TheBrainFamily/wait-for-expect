@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it fails properly with jest error message when it times out without expectation passing 1`] = `
+"expect(received).toEqual(expected)
+
+Expected value to equal:
+  2000
+Received:
+  200"
+`;
+
+exports[`it fails when the change didn't happen fast enough, based on the waitForExpect timeout 1`] = `
+"expect(received).toEqual(expected)
+
+Expected value to equal:
+  3000
+Received:
+  300"
+`;

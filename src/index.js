@@ -2,46 +2,31 @@ function flushPromises() {
   return new Promise(resolve => setImmediate(resolve));
 }
 
-function waitUntil(predicate, timerTimeout, timerInterval) {
+function waitUntil(expectation, timeout, interval) {
   return new Promise((resolve, reject) => {
-    let timer;
     let timeoutTimer;
-    const clearTimers = function clearWaitTimers() {
-      clearTimeout(timeoutTimer);
-      clearInterval(timer);
-    };
-
-    const doStep = function doTimerStep() {
-      let result;
-
-      try {
-        result = predicate();
-        if (result) {
-          clearTimers();
-          resolve(result);
-        } else {
-          timer = setTimeout(doStep, timerInterval);
-        }
-      } catch (e) {
-        clearTimers();
-        reject(e);
+    function doStep() {
+      if (expectation()) {
+        clearTimeout(timeoutTimer);
+        resolve();
+      } else {
+        setTimeout(doStep, interval);
       }
-    };
+    }
     flushPromises().then(() => {
-      timer = setTimeout(doStep, 0);
+      setTimeout(doStep, 0);
       timeoutTimer = setTimeout(() => {
-        clearTimers();
-        reject(new Error(`Timed out after waiting for ${timerTimeout}ms`));
-      }, timerTimeout);
+        reject(new Error(`Timed out after waiting for ${timeout}ms`));
+      }, timeout);
     });
   });
 }
 /**
- * Waits for predicate to not throw and returns a Promise
+ * Waits for the expectation to pass and returns a Promise
  *
- * @param  expectation  Function  Predicate that has to complete without throwing
+ * @param  expectation  Function  Expectation that has to complete without throwing
  * @param  timeout  Number  Maximum wait interval, 4500ms by default
- * @param  interval  Number  Wait interval, 50ms by default
+ * @param  interval  Number  Wait-between-retries interval, 50ms by default
  * @return  Promise  Promise to return a callback result
  */
 
