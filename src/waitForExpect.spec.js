@@ -26,7 +26,7 @@ test(
         expect(numberNotToChange).toEqual(2000);
       }, 300);
     } catch (e) {
-      expect(e).toMatchSnapshot();
+      expect(e.message).toMatchSnapshot();
       done();
     }
   },
@@ -48,7 +48,7 @@ test(
         expect(numberToChangeTooLate).toEqual(3000);
       }, timeToPassForTheChangeToHappen - 200);
     } catch (e) {
-      expect(e).toMatchSnapshot();
+      expect(e.message).toMatchSnapshot();
       done();
     }
   },
