@@ -12,15 +12,18 @@ We will add examples for all of them soon, for now please enjoy the simple docs.
 ```javascript
 const waitForExpect = require("wait-for-expect")
 
-let numberToChange = 10;
-
 test("it waits for the number to change", async () => {
+  let numberToChange = 10;
+  // we are using random timeout here to simulate a real-time example
+  // of an async operation calling a callback at a non-deterministic time
+  const randomTimeout = Math.floor(Math.random() * 300);
+
   setTimeout(() => {
     numberToChange = 100;
-  }, 600);
-  
+  }, randomTimeout);
+
   await waitForExpect(() => {
-    expect(numberToChange).toEqual(100)
+    expect(numberToChange).toEqual(100);
   });
 });
 ```
@@ -28,12 +31,14 @@ test("it waits for the number to change", async () => {
 instead of:
 
 ```javascript
-let numberToChange = 10;
 
 test("it waits for the number to change", () => {
+  let numberToChange = 10;
+  const randomTimeout = Math.floor(Math.random() * 300);
+
   setTimeout(() => {
     numberToChange = 100;
-  }, 600);
+  }, randomTimeout);
   
   setTimeout(() => {
     expect(numberToChange).toEqual(100);
@@ -117,4 +122,5 @@ waitForExpect takes 3 arguments, 2 optional.
 ```
 
 ## Credit
-Based on ideas from https://github.com/devlato/waitUntil - mostly build around it with functionality nice for testing. Couldn't depend on it internally because I wanted to add the flushPromises and run the initial expectations right after flushing them, which had to be done in the tool itself :) otherwise tests that should be taking few ms would take all >50ms in the default situation. It might seem trivial but with 100 tests times 45 ms extra your tests would start taking 4.5 seconds instead of 0.5 s :) 
+Originally based on ideas from https://github.com/devlato/waitUntil - mostly build around it with functionality nice for testing. Couldn't depend on it internally because I wanted to add the flushPromises and run the initial expectations right after flushing them, which had to be done in the tool itself :) otherwise tests that should be taking few ms would take all >50ms in the default situation. It might seem trivial but with 100 tests times 45 ms extra your tests would start taking 4.5 seconds instead of 0.5 s :)
+Basically rewritten for version 0.1.0.
