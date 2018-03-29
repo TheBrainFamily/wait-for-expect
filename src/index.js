@@ -1,26 +1,3 @@
-function flushPromises() {
-  return new Promise(resolve => setImmediate(resolve));
-}
-
-function waitUntil(expectation, timeout, interval) {
-  return new Promise((resolve, reject) => {
-    let timeoutTimer;
-    function doStep() {
-      if (expectation()) {
-        clearTimeout(timeoutTimer);
-        resolve();
-      } else {
-        setTimeout(doStep, interval);
-      }
-    }
-    flushPromises().then(() => {
-      setTimeout(doStep, 0);
-      timeoutTimer = setTimeout(() => {
-        reject(new Error(`Timed out after waiting for ${timeout}ms`));
-      }, timeout);
-    });
-  });
-}
 /**
  * Waits for the expectation to pass and returns a Promise
  *
@@ -29,19 +6,24 @@ function waitUntil(expectation, timeout, interval) {
  * @param  interval  Number  Wait-between-retries interval, 50ms by default
  * @return  Promise  Promise to return a callback result
  */
-
-module.exports = (expectation, timeout = 4500, interval = 50) =>
-  waitUntil(
-    () => {
+module.exports = function waitForExpect(
+  expectation,
+  timeout = 4500,
+  interval = 50
+) {
+  const startTime = Date.now();
+  return new Promise((resolve, reject) => {
+    function runExpectation() {
       try {
         expectation();
-      } catch (e) {
-        return false;
+        resolve();
+      } catch (error) {
+        if (Date.now() - startTime >= timeout) {
+          reject(error);
+        }
+        setTimeout(runExpectation, interval);
       }
-      return true;
-    },
-    timeout,
-    interval
-  ).catch(() => {
-    expectation();
+    }
+    setTimeout(runExpectation, 0);
   });
+};

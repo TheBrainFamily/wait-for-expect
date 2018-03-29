@@ -122,5 +122,6 @@ waitForExpect takes 3 arguments, 2 optional.
 ```
 
 ## Credit
-Originally based on ideas from https://github.com/devlato/waitUntil - mostly build around it with functionality nice for testing. Couldn't depend on it internally because I wanted to add the flushPromises and run the initial expectations right after flushing them, which had to be done in the tool itself :) otherwise tests that should be taking few ms would take all >50ms in the default situation. It might seem trivial but with 100 tests times 45 ms extra your tests would start taking 4.5 seconds instead of 0.5 s :)
-Basically rewritten for version 0.1.0.
+Originally based on ideas from https://github.com/devlato/waitUntil.
+Simplified highly and rewritten for 0.1.0 version.
+Simplified even more and rewritten even more for 0.2.0 with guidance from Kent C. Dodds: https://github.com/kentcdodds/react-testing-library/pull/25
