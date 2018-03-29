@@ -46,7 +46,7 @@ test("it waits for the number to change", () => {
 });
 ```
 
-It will check whether the expectation passes right away after flushing all promises (very useful with, for example, integration testing of react when mocking fetches, like here: https://github.com/kentcdodds/react-testing-library#usage)
+It will check whether the expectation passes right away in the next available "tick" (very useful with, for example, integration testing of react when mocking fetches, like here: https://github.com/kentcdodds/react-testing-library#usage).
 
 If it doesn't, it will keep repeating for the duration of, at most, the specified timeout, every 50 ms. The default timeout is 4.5 seconds to fit below the default 5 seconds that Jest waits for before throwing an error. 
 
