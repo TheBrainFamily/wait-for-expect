@@ -1,7 +1,20 @@
 {
+  "parser": "typescript-eslint-parser",
   "extends": ["airbnb-base", "plugin:prettier/recommended"],
-  "plugins": ["prettier"],
+  "plugins": ["import", "typescript", "prettier"],
   "rules": {
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "strict": 0,
+    "import/extensions": [2, { "js": "never", "ts": "never" }]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [
+          ".js",
+          ".ts"
+        ]
+      }
+    }
   }
 }
