@@ -1,5 +1,6 @@
 /* eslint-env jest */
-const waitForExpect = require("./index");
+import "./toBeInRangeMatcher";
+import waitForExpect from "./index";
 
 test("it waits for expectation to pass", async () => {
   let numberToChange = 10;
@@ -54,22 +55,6 @@ test(
   1500
 );
 
-expect.extend({
-  toBeInRange(received, { min, max }) {
-    const pass = received >= min && received <= max;
-    if (pass) {
-      return {
-        message: () => `expected ${received} < ${min} or ${max} < ${received}`,
-        pass: true
-      };
-    }
-    return {
-      message: () => `expected ${min} >= ${received} >= ${max}`,
-      pass: false
-    };
-  }
-});
-
 test("it reruns the expectation every x ms, as provided with the second argument", async () => {
   // using this would be preferable but somehow jest shares the expect.assertions between tests!
   // expect.assertions(1 + Math.floor(timeout / interval));
@@ -88,6 +73,7 @@ test("it reruns the expectation every x ms, as provided with the second argument
   } catch (e) {
     // initial run + reruns
     const expectedTimesToRun = 1 + Math.floor(timeout / interval);
+    expect(timesRun).toEqual(expectedTimesToRun);
     expect(timesRun).toBeInRange({
       min: expectedTimesToRun - 1,
       max: expectedTimesToRun + 1

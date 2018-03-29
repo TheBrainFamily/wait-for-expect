@@ -6,8 +6,8 @@
  * @param  interval  Number  Wait-between-retries interval, 50ms by default
  * @return  Promise  Promise to return a callback result
  */
-module.exports = function waitForExpect(
-  expectation,
+const waitForExpect = function waitForExpect(
+  expectation: () => void,
   timeout = 4500,
   interval = 50
 ) {
@@ -27,3 +27,6 @@ module.exports = function waitForExpect(
     setTimeout(runExpectation, 0);
   });
 };
+// module.exports = { waitForExpect };
+
+export default waitForExpect;
