@@ -20,7 +20,6 @@ test(
   "it fails properly with jest error message when it times out without expectation passing",
   async done => {
     const numberNotToChange = 200;
-
     try {
       await waitForExpect(() => {
         expect(numberNotToChange).toEqual(2000);
@@ -73,7 +72,7 @@ expect.extend({
 
 test("it reruns the expectation every x ms, as provided with the second argument", async () => {
   // using this would be preferable but somehow jest shares the expect.assertions between tests!
-  // expect.assertions(1 + Math.floor(timeout / interval) + 1);
+  // expect.assertions(1 + Math.floor(timeout / interval));
   let timesRun = 0;
   const timeout = 600;
   const interval = 150;
@@ -87,8 +86,8 @@ test("it reruns the expectation every x ms, as provided with the second argument
       interval
     );
   } catch (e) {
-    // initial run + reruns + final run
-    const expectedTimesToRun = 1 + Math.floor(timeout / interval) + 1;
+    // initial run + reruns
+    const expectedTimesToRun = 1 + Math.floor(timeout / interval);
     expect(timesRun).toBeInRange({
       min: expectedTimesToRun - 1,
       max: expectedTimesToRun + 1
