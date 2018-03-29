@@ -27,6 +27,5 @@ const waitForExpect = function waitForExpect(
     setTimeout(runExpectation, 0);
   });
 };
-// module.exports = { waitForExpect };
 
 export default waitForExpect;
