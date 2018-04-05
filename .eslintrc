@@ -1,4 +1,7 @@
 {
+  "globals": {
+    "window": true
+  },
   "parser": "typescript-eslint-parser",
   "extends": ["airbnb-base", "plugin:prettier/recommended"],
   "plugins": ["import", "typescript", "prettier"],
