@@ -1,3 +1,7 @@
+// Used to avoid using Jest's fake timers.
+// See https://github.com/TheBrainFamily/wait-for-expect/issues/4 for more info
+const { setTimeout } = typeof window !== "undefined" ? window : global;
+
 /**
  * Waits for the expectation to pass and returns a Promise
  *

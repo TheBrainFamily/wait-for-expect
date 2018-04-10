@@ -121,6 +121,10 @@ waitForExpect takes 3 arguments, 2 optional.
  */
 ```
 
+## Changelog
+0.5.0 - 10 April 2018
+Play nicely with jest fake timers (and also in any test tool that overwrites setTimeout) - thanks to @slightlytyler and @kentcoddods for helping to get this resolved.
+
 ## Credit
 Originally based on ideas from https://github.com/devlato/waitUntil.
 Simplified highly and rewritten for 0.1.0 version.
