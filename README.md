@@ -106,6 +106,46 @@ For example, let's add another expectation for a different number, notice how je
       at waitUntil.catch (src/index.js:61:5)
 ```
 
+Since 0.6.0 we can now work with promises, for example, this is now possible:
+
+```javascript
+    test("rename todo by typing", async () => {
+      (..)
+      const todoToChange = getTodoByText("original todo");
+      todoToChange.value = "different text now";
+      Simulate.change(todoToChange);
+
+      await wait(() =>
+        expect(
+          todoItemsCollection.findOne({
+            text: "different text now"
+          })).resolves.not.toBeNull()
+      );
+    });
+```
+
+Async Await also works, as in this example - straight from our test case
+
+```javascript
+test("it works with promises", async () => {
+  let numberToChange = 10;
+  const randomTimeout = Math.floor(Math.random() * 300);
+
+  setTimeout(() => {
+    numberToChange = 100;
+  }, randomTimeout);
+
+  const sleep = (ms: number) =>
+    new Promise(resolve => setTimeout(() => resolve(), ms));
+
+  await waitForExpect(async () => {
+    await sleep(10);
+    expect(numberToChange).toEqual(100);
+  });
+});
+```
+
+(Note: Obviously, in this case it doesn't make sense to put the await sleep there, this is just for demonstration purpose)
 
 # API
 waitForExpect takes 3 arguments, 2 optional.
@@ -122,6 +162,9 @@ waitForExpect takes 3 arguments, 2 optional.
 ```
 
 ## Changelog
+0.6.0 - 3 May 2018
+Work with promises.
+
 0.5.0 - 10 April 2018
 Play nicely with jest fake timers (and also in any test tool that overwrites setTimeout) - thanks to @slightlytyler and @kentcoddods for helping to get this resolved.
 

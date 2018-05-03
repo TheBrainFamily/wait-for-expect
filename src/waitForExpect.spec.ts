@@ -80,3 +80,20 @@ test("it reruns the expectation every x ms, as provided with the second argument
     });
   }
 });
+
+test("it works with promises", async () => {
+  let numberToChange = 10;
+  const randomTimeout = Math.floor(Math.random() * 300);
+
+  setTimeout(() => {
+    numberToChange = 100;
+  }, randomTimeout);
+
+  const sleep = (ms: number) =>
+    new Promise(resolve => setTimeout(() => resolve(), ms));
+
+  await waitForExpect(async () => {
+    await sleep(10);
+    expect(numberToChange).toEqual(100);
+  });
+});

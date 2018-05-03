@@ -17,15 +17,20 @@ const waitForExpect = function waitForExpect(
 ) {
   const startTime = Date.now();
   return new Promise((resolve, reject) => {
+    const rejectOrRerun = (error: Error) => {
+      if (Date.now() - startTime >= timeout) {
+        reject(error);
+      }
+      // eslint-disable-next-line no-use-before-define
+      setTimeout(runExpectation, interval);
+    };
     function runExpectation() {
       try {
-        expectation();
-        resolve();
+        Promise.resolve(expectation())
+          .then(() => resolve())
+          .catch(rejectOrRerun);
       } catch (error) {
-        if (Date.now() - startTime >= timeout) {
-          reject(error);
-        }
-        setTimeout(runExpectation, interval);
+        rejectOrRerun(error);
       }
     }
     setTimeout(runExpectation, 0);
