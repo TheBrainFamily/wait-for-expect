@@ -109,19 +109,19 @@ For example, let's add another expectation for a different number, notice how je
 Since 0.6.0 we can now work with promises, for example, this is now possible:
 
 ```javascript
-    test("rename todo by typing", async () => {
-      (..)
-      const todoToChange = getTodoByText("original todo");
-      todoToChange.value = "different text now";
-      Simulate.change(todoToChange);
+test("rename todo by typing", async () => {
+  // (..)
+  const todoToChange = getTodoByText("original todo");
+  todoToChange.value = "different text now";
+  Simulate.change(todoToChange);
 
-      await wait(() =>
-        expect(
-          todoItemsCollection.findOne({
-            text: "different text now"
-          })).resolves.not.toBeNull()
-      );
-    });
+  await waitForExpect(() =>
+    expect(
+      todoItemsCollection.findOne({
+        text: "different text now"
+      })).resolves.not.toBeNull()
+  );
+});
 ```
 
 Async Await also works, as in this example - straight from our test case
@@ -135,7 +135,7 @@ test("it works with promises", async () => {
     numberToChange = 100;
   }, randomTimeout);
 
-  const sleep = (ms: number) =>
+  const sleep = (ms) =>
     new Promise(resolve => setTimeout(() => resolve(), ms));
 
   await waitForExpect(async () => {
