@@ -162,10 +162,21 @@ waitForExpect takes 3 arguments, 2 optional.
 ```
 
 ## Changelog
+1.0.0 - 15 June 2018
+
+( For most people this change doesn't matter. )
+Export the function directly in module.exports instead of exporting as an object that has default key. If that's not clear (...it isn't ;-) ) - check #8 #9 . 
+Thanks to @mbaranovski for the PR and @BenBrostoff for creating the issue! I'm making this 1.0.0 as this is breaking for people that currently did:
+```javascript
+const { default: waitFor } = require('wait-for-expect');
+```
+
 0.6.0 - 3 May 2018
+
 Work with promises.
 
 0.5.0 - 10 April 2018
+
 Play nicely with jest fake timers (and also in any test tool that overwrites setTimeout) - thanks to @slightlytyler and @kentcoddods for helping to get this resolved.
 
 ## Credit
