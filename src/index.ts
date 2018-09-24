@@ -19,7 +19,8 @@ const waitForExpect = function waitForExpect(
   return new Promise((resolve, reject) => {
     const rejectOrRerun = (error: Error) => {
       if (Date.now() - startTime >= timeout) {
-        return reject(error);
+        reject(error);
+        return;
       }
       // eslint-disable-next-line no-use-before-define
       setTimeout(runExpectation, interval);
