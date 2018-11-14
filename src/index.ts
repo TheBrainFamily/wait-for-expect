@@ -1,6 +1,8 @@
-// Used to avoid using Jest's fake timers.
-// See https://github.com/TheBrainFamily/wait-for-expect/issues/4 for more info
-const { setTimeout } = typeof window !== "undefined" ? window : global;
+// Used to avoid using Jest's fake timers and Date.now mocks
+// See https://github.com/TheBrainFamily/wait-for-expect/issues/4 and
+// https://github.com/TheBrainFamily/wait-for-expect/issues/12 for more info
+const { setTimeout, Date: { now } } =
+  typeof window !== "undefined" ? window : global;
 
 /**
  * Waits for the expectation to pass and returns a Promise
@@ -15,10 +17,10 @@ const waitForExpect = function waitForExpect(
   timeout = 4500,
   interval = 50
 ) {
-  const startTime = Date.now();
+  const startTime = now();
   return new Promise((resolve, reject) => {
     const rejectOrRerun = (error: Error) => {
-      if (Date.now() - startTime >= timeout) {
+      if (now() - startTime >= timeout) {
         reject(error);
         return;
       }
