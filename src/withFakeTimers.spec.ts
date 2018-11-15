@@ -32,12 +32,14 @@ test("it works even if the timers are overwritten by jest", async () => {
 // via mocking whole Date, or by mocking just Date.now
 // hence two test cases covered both ways
 test("it works even if the Date was mocked", async () => {
-  /* eslint-disable-next-line no-global-assign */
+  /* eslint-disable no-global-assign */
+  // @ts-ignore: Cannot reassign to const Date
   Date = jest.fn(() => ({
     now() {
       return 1482363367071;
     }
   }));
+  /* eslint-enable */
   let numberToChange = 10;
 
   setTimeout(() => {

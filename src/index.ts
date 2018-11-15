@@ -1,3 +1,12 @@
+// Augment Window interface with the Date declaratoin,
+// because typescript does not expose it for now.
+// Check https://github.com/Microsoft/TypeScript/issues/19816 for more info
+declare global {
+  /* eslint-disable-next-line no-undef */
+  interface Window {
+    Date: typeof Date;
+  }
+}
 // Used to avoid using Jest's fake timers and Date.now mocks
 // See https://github.com/TheBrainFamily/wait-for-expect/issues/4 and
 // https://github.com/TheBrainFamily/wait-for-expect/issues/12 for more info
