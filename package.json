@@ -1,6 +1,6 @@
 {
   "name": "wait-for-expect",
-  "version": "1.0.1",
+  "version": "0.0.0-development",
   "description": "Wait for expectation to be true, useful for integration and end to end testing",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -8,11 +8,12 @@
     "test": "eslint src/**/*.ts && jest",
     "build": "tsc --emitDeclarationOnly && babel src --out-dir lib --extensions \".ts,.tsx\"",
     "build:watch": "npm run build -- --watch",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "semantic-release": "semantic-release"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TheBrainFamily/wait-for-expect.git"
+    "url": "https://github.com/TheBrainFamily/wait-for-expect.git"
   },
   "keywords": [
     "jest",
@@ -56,6 +57,7 @@
     "jest": "^22.4.3",
     "jest-serializer-ansi": "^1.0.3",
     "prettier": "^1.11.1",
+    "semantic-release": "^15.12.0",
     "typescript": "^2.7.2",
     "typescript-eslint-parser": "^14.0.0"
   },
