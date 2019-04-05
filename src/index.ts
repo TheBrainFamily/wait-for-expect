@@ -15,8 +15,8 @@ const { setTimeout, Date: { now } } =
 
 const defaults = {
   timeout: 4500,
-  interval: 50,
-}
+  interval: 50
+};
 
 /**
  * Waits for the expectation to pass and returns a Promise
