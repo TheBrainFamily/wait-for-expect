@@ -2,6 +2,11 @@
 import "./toBeInRangeMatcher";
 import waitForExpect from "./index";
 
+const originalDefaults = { ...waitForExpect.defaults }
+beforeEach(() => {
+  Object.assign(waitForExpect.defaults, originalDefaults)
+})
+
 test("it waits for expectation to pass", async () => {
   let numberToChange = 10;
   // we are using random timeout here to simulate a real-time example
@@ -78,6 +83,24 @@ test("it reruns the expectation every x ms, as provided with the second argument
       min: expectedTimesToRun - 1,
       max: expectedTimesToRun + 1
     });
+  }
+});
+
+test("it reruns the expectation every x ms, as provided by the default timeout and interval", async () => {
+  const timeout = 600;
+  const interval = 150;
+  waitForExpect.defaults.timeout = timeout;
+  waitForExpect.defaults.interval = interval;
+  const mockExpectation = jest.fn().mockImplementation(
+    () => expect(true).toEqual(false)
+  )
+  try {
+    await waitForExpect(mockExpectation);
+    throw Error('waitForExpect should have thrown')
+  } catch (e) {
+    // initial run + reruns
+    const expectedTimesToRun = 1 + Math.floor(timeout / interval);
+    expect(mockExpectation).toHaveBeenCalledTimes(expectedTimesToRun);
   }
 });
 
