@@ -13,6 +13,11 @@ declare global {
 const { setTimeout, Date: { now } } =
   typeof window !== "undefined" ? window : global;
 
+const defaults = {
+  timeout: 4500,
+  interval: 50
+};
+
 /**
  * Waits for the expectation to pass and returns a Promise
  *
@@ -23,8 +28,8 @@ const { setTimeout, Date: { now } } =
  */
 const waitForExpect = function waitForExpect(
   expectation: () => void,
-  timeout = 4500,
-  interval = 50
+  timeout = defaults.timeout,
+  interval = defaults.interval
 ) {
   const startTime = now();
   return new Promise((resolve, reject) => {
@@ -49,4 +54,4 @@ const waitForExpect = function waitForExpect(
   });
 };
 
-export default waitForExpect;
+export default Object.assign(waitForExpect, { defaults });

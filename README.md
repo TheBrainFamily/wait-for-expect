@@ -161,6 +161,14 @@ waitForExpect takes 3 arguments, 2 optional.
  */
 ```
 
+The defaults for `timeout` and `interval` can also be edited globally, e.g. in a jest setup file:
+```javascript
+import waitForExpect from 'wait-for-expect';
+
+waitForExpect.defaults.timeout = 2000;
+waitForExpect.defaults.interval = 10;
+```
+
 ## Changelog
 1.0.0 - 15 June 2018
 
