@@ -7,11 +7,6 @@ declare global {
     Date: typeof Date;
   }
 }
-// Used to avoid using Jest's fake timers and Date.now mocks
-// See https://github.com/TheBrainFamily/wait-for-expect/issues/4 and
-// https://github.com/TheBrainFamily/wait-for-expect/issues/12 for more info
-const { setTimeout, Date: { now } } =
-  typeof window !== "undefined" ? window : global;
 
 const defaults = {
   timeout: 4500,
@@ -31,6 +26,12 @@ const waitForExpect = function waitForExpect(
   timeout = defaults.timeout,
   interval = defaults.interval
 ) {
+  // Used to avoid using Jest's fake timers and Date.now mocks
+  // See https://github.com/TheBrainFamily/wait-for-expect/issues/4 and
+  // https://github.com/TheBrainFamily/wait-for-expect/issues/12 for more info
+  const { setTimeout, Date: { now } } =
+    typeof window !== "undefined" ? window : global;
+
   const startTime = now();
   return new Promise((resolve, reject) => {
     const rejectOrRerun = (error: Error) => {
