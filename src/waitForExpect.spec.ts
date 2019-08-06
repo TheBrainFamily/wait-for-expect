@@ -119,3 +119,11 @@ test("it works with promises", async () => {
     expect(numberToChange).toEqual(100);
   });
 });
+
+test("it rejects a zero interval", async () => {
+  try {
+    await waitForExpect(() => expect(true).toEqual(false), 1, 0);
+  } catch (error) {
+    expect(error.message).toMatch(/interval must be >= 1ms/);
+  }
+});

@@ -21,6 +21,7 @@ const waitForExpect = function waitForExpect(
   timeout = defaults.timeout,
   interval = defaults.interval
 ) {
+  if (interval < 1) throw new Error("waitForExpect: interval must be >= 1ms");
   const maxTries = Math.ceil(timeout / interval);
   let tries = 0;
   return new Promise((resolve, reject) => {
