@@ -119,3 +119,18 @@ test("it works with promises", async () => {
     expect(numberToChange).toEqual(100);
   });
 });
+
+test("it works with a zero interval", async () => {
+  let numberToChange = 1;
+  setTimeout(() => {
+    numberToChange = 2;
+  }, 10);
+
+  await waitForExpect(
+    () => {
+      expect(numberToChange).toEqual(2);
+    },
+    100,
+    0
+  );
+});
