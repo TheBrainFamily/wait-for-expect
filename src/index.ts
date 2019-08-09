@@ -1,13 +1,3 @@
-// Augment Window interface with the Date declaratoin,
-// because typescript does not expose it for now.
-// Check https://github.com/Microsoft/TypeScript/issues/19816 for more info
-declare global {
-  /* eslint-disable-next-line no-undef */
-  interface Window {
-    Date: typeof Date;
-  }
-}
-
 const defaults = {
   timeout: 4500,
   interval: 50
@@ -29,13 +19,15 @@ const waitForExpect = function waitForExpect(
   // Used to avoid using Jest's fake timers and Date.now mocks
   // See https://github.com/TheBrainFamily/wait-for-expect/issues/4 and
   // https://github.com/TheBrainFamily/wait-for-expect/issues/12 for more info
-  const { setTimeout, Date: { now } } =
-    typeof window !== "undefined" ? window : global;
+  const { setTimeout } = typeof window !== "undefined" ? window : global;
 
-  const startTime = now();
+  // eslint-disable-next-line no-param-reassign
+  if (interval < 1) interval = 1;
+  const maxTries = Math.ceil(timeout / interval);
+  let tries = 0;
   return new Promise((resolve, reject) => {
     const rejectOrRerun = (error: Error) => {
-      if (now() - startTime >= timeout) {
+      if (tries > maxTries) {
         reject(error);
         return;
       }
@@ -43,6 +35,7 @@ const waitForExpect = function waitForExpect(
       setTimeout(runExpectation, interval);
     };
     function runExpectation() {
+      tries += 1;
       try {
         Promise.resolve(expectation())
           .then(() => resolve())
