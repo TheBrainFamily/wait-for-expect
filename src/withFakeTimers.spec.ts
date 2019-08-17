@@ -14,7 +14,8 @@ beforeEach(() => {
 
 test("it works with real timers even if they were set to fake before importing the module", async () => {
   jest.useFakeTimers();
-  const importedWaitForExpect = require('./index');
+  /* eslint-disable global-require */
+  const importedWaitForExpect = require("./index");
   jest.useRealTimers();
 
   let numberToChange = 10;
