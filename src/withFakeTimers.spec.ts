@@ -7,12 +7,16 @@ import waitForExpect from "./index";
 // line from the index.ts
 
 beforeEach(() => {
+  jest.resetModules();
   jest.restoreAllMocks();
   jest.useRealTimers();
 });
 
-test("it works even if the timers are overwritten by jest", async () => {
+test("it works with real timers even if they were set to fake before importing the module", async () => {
   jest.useFakeTimers();
+  const importedWaitForExpect = require('./index');
+  jest.useRealTimers();
+
   let numberToChange = 10;
   // we are using random timeout here to simulate a real-time example
   // of an async operation calling a callback at a non-deterministic time
@@ -22,8 +26,7 @@ test("it works even if the timers are overwritten by jest", async () => {
     numberToChange = 100;
   }, randomTimeout);
 
-  jest.runAllTimers();
-  await waitForExpect(() => {
+  await importedWaitForExpect(() => {
     expect(numberToChange).toEqual(100);
   });
 });
