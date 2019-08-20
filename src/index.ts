@@ -1,8 +1,3 @@
-// Used to avoid using Jest's fake timers and Date.now mocks
-// See https://github.com/TheBrainFamily/wait-for-expect/issues/4 and
-// https://github.com/TheBrainFamily/wait-for-expect/issues/12 for more info
-const { setTimeout } = typeof window !== "undefined" ? window : global;
-
 const defaults = {
   timeout: 4500,
   interval: 50
@@ -21,6 +16,11 @@ const waitForExpect = function waitForExpect(
   timeout = defaults.timeout,
   interval = defaults.interval
 ) {
+  // Used to avoid using Jest's fake timers and Date.now mocks
+  // See https://github.com/TheBrainFamily/wait-for-expect/issues/4 and
+  // https://github.com/TheBrainFamily/wait-for-expect/issues/12 for more info
+  const { setTimeout } = typeof window !== "undefined" ? window : global;
+
   // eslint-disable-next-line no-param-reassign
   if (interval < 1) interval = 1;
   const maxTries = Math.ceil(timeout / interval);
