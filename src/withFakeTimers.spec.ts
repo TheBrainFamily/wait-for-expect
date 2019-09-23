@@ -12,7 +12,7 @@ beforeEach(() => {
   jest.useRealTimers();
 });
 
-test("it works with real timers even if they were set to fake before importing the module", async () => {
+test("it always uses with real timers even if they were set to fake before importing the module", async () => {
   jest.useFakeTimers();
   /* eslint-disable global-require */
   const importedWaitForExpect = require("./index");
@@ -26,6 +26,8 @@ test("it works with real timers even if they were set to fake before importing t
   setTimeout(() => {
     numberToChange = 100;
   }, randomTimeout);
+
+  jest.useFakeTimers();
 
   await importedWaitForExpect(() => {
     expect(numberToChange).toEqual(100);
