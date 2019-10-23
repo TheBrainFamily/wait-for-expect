@@ -2,9 +2,9 @@
   "globals": {
     "window": true
   },
-  "parser": "typescript-eslint-parser",
+  "parser": "@typescript-eslint/parser",
   "extends": ["airbnb-base", "plugin:prettier/recommended"],
-  "plugins": ["import", "typescript", "prettier"],
+  "plugins": ["import", "@typescript-eslint", "prettier"],
   "rules": {
     "prettier/prettier": "error",
     "strict": 0,

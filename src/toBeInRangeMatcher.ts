@@ -1,6 +1,7 @@
 /* eslint-env jest */
 // XXX Not sure how to make eslint not to complain here, but looks like this
 // declaration works, so leaving it for now
+// eslint-disable-next-line no-unused-vars
 declare namespace jest {
   // eslint-disable-next-line no-undef
   interface Matchers<R> {
