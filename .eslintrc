@@ -2,21 +2,20 @@
   "globals": {
     "window": true
   },
-  "parser": "typescript-eslint-parser",
+  "parser": "@typescript-eslint/parser",
   "extends": ["airbnb-base", "plugin:prettier/recommended"],
-  "plugins": ["import", "typescript", "prettier"],
+  "plugins": ["import", "@typescript-eslint", "prettier"],
   "rules": {
     "prettier/prettier": "error",
     "strict": 0,
-    "import/extensions": [2, { "js": "never", "ts": "never" }]
+    "import/extensions": [2, { "js": "never", "ts": "never" }],
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "error"
   },
   "settings": {
     "import/resolver": {
       "node": {
-        "extensions": [
-          ".js",
-          ".ts"
-        ]
+        "extensions": [".js", ".ts"]
       }
     }
   }

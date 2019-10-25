@@ -47,4 +47,6 @@ const waitForExpect = function waitForExpect(
   });
 };
 
-export default Object.assign(waitForExpect, { defaults });
+waitForExpect.defaults = defaults;
+
+export default waitForExpect;
