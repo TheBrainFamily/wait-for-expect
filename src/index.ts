@@ -14,7 +14,7 @@ const defaults = {
  * @return  Promise  Promise to return a callback result
  */
 const waitForExpect = function waitForExpect(
-  expectation: () => void,
+  expectation: () => void | Promise<void>,
   timeout = defaults.timeout,
   interval = defaults.interval
 ) {
