@@ -134,3 +134,22 @@ test("it works with a zero interval", async () => {
     0
   );
 });
+
+test("it does not pass flaky tests", async () => {
+  waitForExpect.defaults.minConsecutivePasses = 3;
+  try {
+    let counter = 0;
+    await waitForExpect(() => {
+      // a flaky test that passes if retried enough times
+      counter += 1;
+      if (counter % 10 === 0) {
+        expect(true).toEqual(true);
+      } else {
+        expect(true).toEqual(false);
+      }
+    });
+    throw Error("waitForExpect should have thrown");
+  } catch ({ message }) {
+    expect(message).not.toEqual("waitForExpect should have thrown");
+  }
+});
