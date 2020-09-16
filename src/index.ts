@@ -2,8 +2,13 @@ import { getSetTimeoutFn } from "./helpers";
 
 const defaults = {
   timeout: 4500,
-  interval: 50
+  interval: 50,
+  minConsecutivePasses: 1
 };
+
+const consecutivePassesDefaultError = new Error(
+  "Test have not passed the min number of consecutive required runs, might be a flaky test"
+);
 
 /**
  * Waits for the expectation to pass and returns a Promise
@@ -16,7 +21,8 @@ const defaults = {
 const waitForExpect = function waitForExpect(
   expectation: () => void | Promise<void>,
   timeout = defaults.timeout,
-  interval = defaults.interval
+  interval = defaults.interval,
+  minConsecutivePasses = defaults.minConsecutivePasses
 ) {
   const setTimeout = getSetTimeoutFn();
 
@@ -24,8 +30,16 @@ const waitForExpect = function waitForExpect(
   if (interval < 1) interval = 1;
   const maxTries = Math.ceil(timeout / interval);
   let tries = 0;
+  let consecutivePasses = 0;
+  let lastError = consecutivePassesDefaultError;
   return new Promise((resolve, reject) => {
-    const rejectOrRerun = (error: Error) => {
+    const getRejectOrRerun = (resetConsecutivePasses: boolean) => (
+      error: Error
+    ) => {
+      if (resetConsecutivePasses) {
+        consecutivePasses = 0;
+        lastError = error;
+      }
       if (tries > maxTries) {
         reject(error);
         return;
@@ -37,10 +51,17 @@ const waitForExpect = function waitForExpect(
       tries += 1;
       try {
         Promise.resolve(expectation())
-          .then(() => resolve())
-          .catch(rejectOrRerun);
+          .then(() => {
+            consecutivePasses += 1;
+            if (consecutivePasses === minConsecutivePasses) {
+              resolve();
+              return;
+            }
+            getRejectOrRerun(false)(lastError);
+          })
+          .catch(getRejectOrRerun(true));
       } catch (error) {
-        rejectOrRerun(error);
+        getRejectOrRerun(true)(error);
       }
     }
     setTimeout(runExpectation, 0);
