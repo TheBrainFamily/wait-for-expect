@@ -13,8 +13,8 @@ const defaults = {
  * @param  interval  Number  Wait-between-retries interval, 50ms by default
  * @return  Promise  Promise to return a callback result
  */
-const waitForExpect = function waitForExpect(
-  expectation: () => void | Promise<void>,
+const waitForExpect = function waitForExpect<T>(
+  expectation: () => T | Promise<T>,
   timeout = defaults.timeout,
   interval = defaults.interval
 ) {
@@ -37,7 +37,7 @@ const waitForExpect = function waitForExpect(
       tries += 1;
       try {
         Promise.resolve(expectation())
-          .then(() => resolve())
+          .then(result => resolve(result))
           .catch(rejectOrRerun);
       } catch (error) {
         rejectOrRerun(error);
