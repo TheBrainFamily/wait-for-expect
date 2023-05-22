@@ -24,7 +24,7 @@ test("it waits for expectation to pass", async () => {
 
 test(
   "it fails properly with jest error message when it times out without expectation passing",
-  async done => {
+  async () => {
     const numberNotToChange = 200;
     try {
       await waitForExpect(() => {
@@ -32,7 +32,6 @@ test(
       }, 300);
     } catch (e) {
       expect(e.message).toMatchSnapshot();
-      done();
     }
   },
   1000
@@ -40,7 +39,7 @@ test(
 
 test(
   "it fails when the change didn't happen fast enough, based on the waitForExpect timeout",
-  async done => {
+  async () => {
     let numberToChangeTooLate = 300;
     const timeToPassForTheChangeToHappen = 1000;
 
@@ -54,7 +53,6 @@ test(
       }, timeToPassForTheChangeToHappen - 200);
     } catch (e) {
       expect(e.message).toMatchSnapshot();
-      done();
     }
   },
   1500
