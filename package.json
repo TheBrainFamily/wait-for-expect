@@ -41,8 +41,8 @@
     "@babel/preset-typescript": "^7.0.0",
     "@types/eslint": "^4.16.0",
     "@types/eslint-plugin-prettier": "^2.2.0",
-    "@types/jest": "^28.0.0",
-    "@types/node": "^9.6.1",
+    "@types/jest": "^27.0.0",
+    "@types/node": "^12.0.0",
     "@types/prettier": "^1.10.0",
     "@types/typescript": "^2.0.0",
     "@typescript-eslint/eslint-plugin": "^2.5.0",
@@ -59,7 +59,7 @@
     "jest-serializer-ansi": "^1.0.3",
     "prettier": "^1.11.1",
     "semantic-release": "^15.12.0",
-    "typescript": "~3.2.4"
+    "typescript": "^4.0.0"
   },
   "jest": {
     "snapshotSerializers": [

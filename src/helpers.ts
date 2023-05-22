@@ -9,7 +9,9 @@ const globalObj = typeof window === "undefined" ? global : window;
 function runWithRealTimers(callback: () => any) {
   const usingJestFakeTimers =
     typeof jest !== "undefined" &&
+    // @ts-ignore
     setTimeout.clock != null &&
+    // @ts-ignore
     typeof setTimeout.clock.Date === "function";
 
   if (usingJestFakeTimers) {

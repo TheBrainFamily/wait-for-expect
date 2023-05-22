@@ -31,7 +31,7 @@ test(
         expect(numberNotToChange).toEqual(2000);
       }, 300);
     } catch (e) {
-      expect(e.message).toMatchSnapshot();
+      expect((e as Error).message).toMatchSnapshot();
     }
   },
   1000
@@ -52,7 +52,7 @@ test(
         expect(numberToChangeTooLate).toEqual(3000);
       }, timeToPassForTheChangeToHappen - 200);
     } catch (e) {
-      expect(e.message).toMatchSnapshot();
+      expect((e as Error).message).toMatchSnapshot();
     }
   },
   1500
@@ -110,7 +110,7 @@ test("it works with promises", async () => {
   }, randomTimeout);
 
   const sleep = (ms: number) =>
-    new Promise(resolve => setTimeout(() => resolve(), ms));
+    new Promise<void>(resolve => setTimeout(() => resolve(), ms));
 
   await waitForExpect(async () => {
     await sleep(10);
