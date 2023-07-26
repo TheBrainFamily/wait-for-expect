@@ -7,9 +7,12 @@ const globalObj = typeof window === "undefined" ? global : window;
 
 // Currently this fn only supports jest timers, but it could support other test runners in the future.
 function runWithRealTimers(callback: () => any) {
+  // legacy jest timers mutate `global.setTimeout` differently to
+  // jest v27 fake timers; this checks hanldes both
   const usingJestFakeTimers =
     // eslint-disable-next-line no-underscore-dangle
-    (globalObj.setTimeout as any)._isMockFunction &&
+    ((globalObj.setTimeout as any)._isMockFunction ||
+      (globalObj.setTimeout as any).clock) &&
     typeof jest !== "undefined";
 
   if (usingJestFakeTimers) {
