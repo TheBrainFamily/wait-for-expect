@@ -57,9 +57,9 @@ test("it works even if the Date was mocked", async () => {
       expect(numberToChange).toEqual(101);
     }, 1000);
   } catch (e) {
-    expectFailingMessage = e.message;
+    expectFailingMessage = (e as Error).message;
   }
-  expect(expectFailingMessage).toMatch("Expected value to equal:");
+  expect(expectFailingMessage).toMatch(/toEqual/);
   expect(expectFailingMessage).toMatch("101");
   expect(expectFailingMessage).toMatch("Received:");
   expect(expectFailingMessage).toMatch("100");
@@ -78,9 +78,9 @@ test("it works even if the Date.now was mocked", async () => {
       expect(numberToChange).toEqual(101);
     }, 1000);
   } catch (e) {
-    expectFailingMessage = e.message;
+    expectFailingMessage = (e as Error).message;
   }
-  expect(expectFailingMessage).toMatch("Expected value to equal:");
+  expect(expectFailingMessage).toMatch(/toEqual/);
   expect(expectFailingMessage).toMatch("101");
   expect(expectFailingMessage).toMatch("Received:");
   expect(expectFailingMessage).toMatch("100");
