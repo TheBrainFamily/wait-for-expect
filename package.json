@@ -9,7 +9,8 @@
     "build": "tsc --emitDeclarationOnly && babel src --out-dir lib --extensions \".ts,.tsx\"",
     "build:watch": "npm run build -- --watch",
     "type-check": "tsc --noEmit",
-    "semantic-release": "semantic-release"
+    "semantic-release": "semantic-release",
+    "prettier": "prettier --write src/**/*.ts"
   },
   "repository": {
     "type": "git",
