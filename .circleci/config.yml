@@ -9,16 +9,16 @@ jobs:
     steps:
       - checkout
       - node/install-packages:
-          pkg-manager: npm
+          pkg-manager: pnpm
       - run:
           name: Build project
-          command: npm run build
+          command: pnpm run build
       - run:
           name: Run tests
-          command: npm test
+          command: pnpm test
       - run:
           name: Release
-          command: npm run semantic-release || true
+          command: pnpm run semantic-release || true
 
 workflows:
   build_and_release:
