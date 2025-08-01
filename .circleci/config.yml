@@ -9,28 +9,31 @@ jobs:
     steps:
       - checkout
 
-      # Install pnpm without touching system binaries
       - run:
-          name: Install PNPM
+          name: Configure npm global install dir
+          command: |
+            mkdir -p ~/.npm-global
+            npm config set prefix ~/.npm-global
+            echo 'export PATH=$HOME/.npm-global/bin:$PATH' >> $BASH_ENV
+
+      - run:
+          name: Install pnpm
           command: npm install -g pnpm
 
       - restore_cache:
           keys:
             - pnpm-store-{{ checksum "pnpm-lock.yaml" }}
-      - run:
-          name: Install dependencies
-          command: pnpm install --frozen-lockfile
+      - run: pnpm install --frozen-lockfile
       - save_cache:
           key: pnpm-store-{{ checksum "pnpm-lock.yaml" }}
           paths:
             - ~/.local/share/pnpm-store
 
-      - run:
-          name: Build
-          command: pnpm run build
-      - run:
-          name: Test
-          command: pnpm test
-      - run:
-          name: Release
-          command: pnpm run semantic-release || true
+      - run: pnpm run build
+      - run: pnpm test
+      - run: pnpm run semantic-release || true
+
+workflows:
+  pipeline:
+    jobs:
+      - build
