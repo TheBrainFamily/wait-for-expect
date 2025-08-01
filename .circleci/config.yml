@@ -1,0 +1,39 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@5.0.2
+
+jobs:
+  build:
+    executor: node/default
+    steps:
+      - checkout
+
+      - run:
+          name: Configure npm global install dir
+          command: |
+            mkdir -p ~/.npm-global
+            npm config set prefix ~/.npm-global
+            echo 'export PATH=$HOME/.npm-global/bin:$PATH' >> $BASH_ENV
+
+      - run:
+          name: Install pnpm
+          command: npm install -g pnpm
+
+      - restore_cache:
+          keys:
+            - pnpm-store-{{ checksum "pnpm-lock.yaml" }}
+      - run: pnpm install --frozen-lockfile
+      - save_cache:
+          key: pnpm-store-{{ checksum "pnpm-lock.yaml" }}
+          paths:
+            - ~/.local/share/pnpm-store
+
+      - run: pnpm run build
+      - run: pnpm test
+      - run: pnpm run semantic-release || true
+
+workflows:
+  pipeline:
+    jobs:
+      - build
