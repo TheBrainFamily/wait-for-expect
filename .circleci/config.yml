@@ -1,0 +1,26 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@5.0.2
+
+jobs:
+  build:
+    executor: node/default
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm
+      - run:
+          name: Build project
+          command: npm run build
+      - run:
+          name: Run tests
+          command: npm test
+      - run:
+          name: Release
+          command: npm run semantic-release || true
+
+workflows:
+  build_and_release:
+    jobs:
+      - build
