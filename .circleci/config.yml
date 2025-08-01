@@ -5,22 +5,38 @@ orbs:
 
 jobs:
   build:
-    executor: node/default
+    executor: node/default # cimg/node:<version> with Corepack baked in
     steps:
       - checkout
-      - node/install-packages:
-          pkg-manager: pnpm
+
+      # 1) Turn on Corepack and activate PNPM
       - run:
-          name: Build project
+          name: Enable PNPM via Corepack
+          command: |
+            corepack enable
+            corepack prepare pnpm@latest --activate
+
+      # 2) Install your deps
+      - run:
+          name: Install dependencies
+          command: pnpm install --frozen-lockfile
+
+      # 3) Build, test, and release
+      - run:
+          name: Build
           command: pnpm run build
       - run:
-          name: Run tests
+          name: Test
           command: pnpm test
       - run:
           name: Release
           command: pnpm run semantic-release || true
 
-workflows:
-  build_and_release:
-    jobs:
-      - build
+      # 4) (Optional) Cache your store for speed
+      - restore_cache:
+          keys:
+            - pnpm-store-{{ checksum "pnpm-lock.yaml" }}
+      - save_cache:
+          key: pnpm-store-{{ checksum "pnpm-lock.yaml" }}
+          paths:
+            - ~/.local/share/pnpm-store
