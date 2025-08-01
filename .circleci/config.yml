@@ -1,42 +1,17 @@
 version: 2.1
 
 orbs:
-  node: circleci/node@5.0.2
+  pnpm: rkesters/pnpm-release-management@x.y.z
 
 jobs:
   build:
-    executor: node/default # cimg/node:<version> with Corepack baked in
+    executor: pnpm/default # uses a Docker image + pnpm logic baked in
     steps:
       - checkout
-
-      # 1) Turn on Corepack and activate PNPM
-      - run:
-          name: Enable PNPM via Corepack
-          command: |
-            corepack enable
-            corepack prepare pnpm@latest --activate
-
-      # 2) Install your deps
-      - run:
-          name: Install dependencies
-          command: pnpm install --frozen-lockfile
-
-      # 3) Build, test, and release
-      - run:
-          name: Build
-          command: pnpm run build
-      - run:
-          name: Test
-          command: pnpm test
-      - run:
-          name: Release
-          command: pnpm run semantic-release || true
-
-      # 4) (Optional) Cache your store for speed
-      - restore_cache:
-          keys:
-            - pnpm-store-{{ checksum "pnpm-lock.yaml" }}
-      - save_cache:
-          key: pnpm-store-{{ checksum "pnpm-lock.yaml" }}
-          paths:
-            - ~/.local/share/pnpm-store
+      - pnpm/install # pnpm install --frozen-lockfile + cache
+      - pnpm/run:
+          command: build
+      - pnpm/run:
+          command: test
+      - pnpm/run:
+          command: semantic-release || true
